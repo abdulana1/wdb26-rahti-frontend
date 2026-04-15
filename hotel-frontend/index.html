@@ -4,12 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotell</title>
+      <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
+
+<div class="card">
     <h3>Boka rum</h3>
 
-    <ul id="room-list"></ul>
+    <label for="room-list">Välj rum</label>
+    <select id="room-list"></select>
 
-    <script src="script.js"></script>
+    <label for="datefrom">Från</label>
+    <input type="date" id="datefrom">
+
+    <label for="dateto">Till</label>
+    <input type="date" id="dateto">
+
+    <button type="button" id="btn-save">Boka</button>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
