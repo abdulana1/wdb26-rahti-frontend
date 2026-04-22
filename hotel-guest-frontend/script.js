@@ -1,37 +1,52 @@
 //const apiUrl = "https://wdb26-exempel-deployment-testing.2.rahtiapp.fi/api/ip";
 const apiUrl = "http://127.0.0.1:8080";
 
+// TEMP flytta till LocalStorage eller liknande:
+const API_KEY = "6023d62bba4d85986b90c30c45a9ff27d722833b71b4a25bffc305443ebb272a";
+//const API_KEY = "asdasd";
+
+/*
+async function getCurrentGuest() {
+    const res = await fetch(`${apiUrl}/current_guest`,{
+        headers: {'X-API-Key': API_KEY}
+    });
+    const guest = await res.json();
+
+    console.log(guest)
+
+}
+getCurrentGuest();
+*/
+
+// Hämta nuvarande gästs bokningar
 async function getBookings() {
-    const res = await fetch(`${apiUrl}/bookings`);
+    const res = await fetch(`${apiUrl}/bookings`,{
+        headers: {'X-API-Key': API_KEY}
+    });
     const bookings = await res.json();
 
-    document.getElementById("bookings-list").innerHTML = "";
+    console.log(bookings)
 
-    for (const b of bookings) {
+    document.getElementById("bookings-list").innerHTML = '';
+    for (b of bookings) {
         document.getElementById("bookings-list").innerHTML += `
-            <li>${b.firstname} ${b.lastname} - rum ${b.room_number} - ${b.datefrom} → ${b.dateto}</li>
+            <li>
+                ${b.id} - ${b.datefrom} - rum ${b.room_number} - ${b.guest_name} - ${b.nights} nätter, totalt: ${b.total_price} €
+                <select id="stars-${b.id}">
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="1">⭐</option>
+                </select>
+            </li>
+
+
         `;
     }
+    
 }
 getBookings();
-
-getRooms();
-
-async function getGuests() {
-    const res = await fetch(`${apiUrl}/guests`);
-    const guests = await res.json();
-
-    for (const g of guests) {
-        document.getElementById("guest-list").innerHTML += `
-            <option value="${g.id}">
-                ${g.firstname} ${g.lastname} (${g.total_visits} besök)
-            </option>
-        `;
-    }
-}
-getGuests();
-
-
 
 async function getRooms() {
     const res = await fetch(`${apiUrl}/rooms`);
@@ -48,8 +63,11 @@ async function getRooms() {
             </option>
         `;
     }
-    
 }
+getRooms();
+
+
+
 
 async function saveBooking() {
 
@@ -59,6 +77,7 @@ async function saveBooking() {
         datefrom: document.getElementById("datefrom").value,
         dateto: document.getElementById("dateto").value
     }
+    
     const res = await fetch(`${apiUrl}/bookings`, { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
@@ -67,6 +86,7 @@ async function saveBooking() {
     const data = await res.json();
 
     console.log(data);
+    getBookings();
 }
 
 document.getElementById('btn-save').addEventListener('click', saveBooking);
